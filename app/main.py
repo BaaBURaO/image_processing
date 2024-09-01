@@ -68,14 +68,14 @@ async def upload_file(file: UploadFile = File(...)):
                     input_image_urls=input_image_urls,  
                     output_image_urls=[]
                     )
-            print(new_image_request)
+            print("#####",new_image_request)
                      
             try:
                 async with SessionLocal() as session: 
                     session.add(new_image_request) 
                     await session.commit()
                     await session.refresh(new_image_request)   
-                    await compress_images_endpoint(new_file_request, session)
+                    await compress_images_endpoint(new_image_request.file_process_id, session)
             except Exception as e:
                 raise Exception("failed to insert into db", e)
             

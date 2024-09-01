@@ -13,10 +13,10 @@ from app.database import Base
 class FileProcessRequest(Base):
     __tablename__ = "file_process_requests"
     
-    id = Column(Integer, primary_key=True, index=True, autoincrement=True)  # Integer primary key with auto-increment
-    status = Column(String)  # Status of processing (e.g., 'pending', 'completed')
-
-    # Relationship to link to ImageProcessRequest
+    id = Column(Integer, primary_key=True, index=True)
+    status = Column(String)
+    
+    # Relationship to link to ImageProcessRequests
     images = relationship("ImageProcessRequest", back_populates="file_process")
 
 class ImageProcessRequest(Base):
