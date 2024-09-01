@@ -27,7 +27,6 @@ services:
       - app-network
     environment:
         - GOOGLE_APPLICATION_CREDENTIALS= /Users/adarshtripathi/Desktop/image_processor/adept-watch-434307-c5-a6c0e72ab5db.json
-        
 
 networks:
   app-network:

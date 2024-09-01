@@ -14,15 +14,13 @@ engine = create_async_engine(
 
 # Create the async session factory
 SessionLocal = sessionmaker(
-    bind=engine,  # Bind the engine to the sessionmaker
-    class_=AsyncSession,  # Use the AsyncSession class
-    expire_on_commit=False,  # Keep objects available after commit
-    autocommit=False,  # Disable autocommit
-    autoflush=False  # Disable autoflush
+    bind=engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autocommit=False,
+    autoflush=False
 )
 
-# Define the declarative base class for models
 Base = declarative_base()
 
-# Export all necessary components
 __all__ = ["SessionLocal", "Base", "engine"]

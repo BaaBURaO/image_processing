@@ -17,3 +17,11 @@ This project is an image processing system that uses FastAPI for the web framewo
    ```bash
    git clone https://github.com/yourusername/image-processing-system.git
    cd image-processing-system
+
+2. Install docker and postgresql in your system then run the following commands
+
+   ```bash
+   docker-compose build
+   docker-compose up
+
+

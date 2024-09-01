@@ -21,12 +21,12 @@ class FileProcessRequest(Base):
 
 class ImageProcessRequest(Base):
     __tablename__ = "image_process_requests"
-    
-    sl_no = Column(String, index=True, primary_key=True)  # Unique request ID as part of composite key
+
+    sl_no = Column(String, index=True, primary_key=True)
     file_process_id = Column(Integer, ForeignKey('file_process_requests.id'), index=True, primary_key=True)  # Foreign key and part of composite key
-    product_name = Column(String, index=True)  # Product name associated with images
-    input_image_urls = Column(ARRAY(String))  # List of input image URLs
-    output_image_urls = Column(ARRAY(String))  # List of output image URLs
+    product_name = Column(String, index=True)
+    input_image_urls = Column(ARRAY(String))
+    output_image_urls = Column(ARRAY(String))
 
     # Relationship to link back to FileProcessRequest
     file_process = relationship("FileProcessRequest", back_populates="images")
