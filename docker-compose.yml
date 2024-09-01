@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: image_processing_db
+      ENV GOOGLE_APPLICATION_CREDENTIALS : "/Users/adarshtripathi/Desktop/image_processor/adept-watch-434307-c5-a6c0e72ab5db.json"
+
+    ports:
+      - "5431:5431"
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d
+    networks:
+      - app-network
+  
+  web:
+    build: .
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - app-network
+    environment:
+        - GOOGLE_APPLICATION_CREDENTIALS= /Users/adarshtripathi/Desktop/image_processor/adept-watch-434307-c5-a6c0e72ab5db.json
+        
+
+networks:
+  app-network:
+    driver: bridge
