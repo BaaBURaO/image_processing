@@ -97,7 +97,7 @@ async def compress_images_endpoint(file_request_id: int, session: AsyncSession):
         for image_request in image_requests:
             i+=1
             compressed_image_urls = await compress_images(image_request.input_image_urls)
-            print("***************", i, image_request)
+            print("***************", i, image_request, compressed_image_urls)
             # Update output_image_urls in the database
             image_request.output_image_urls = compressed_image_urls
             print("##############", i)
@@ -152,7 +152,7 @@ async def upload_file(file: UploadFile = File(...)):
         data["file_id"] = new_file_request.id
 
         try:
-            csv_reader = csv.DictReader(buffer)
+            csv_reader = csv.reader(buffer)
             for row in csv_reader:
                 id = row['ID']
                 product_name = row['Product Name']

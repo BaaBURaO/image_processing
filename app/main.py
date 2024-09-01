@@ -55,14 +55,18 @@ async def upload_file(file: UploadFile = File(...)):
 
     # Process CSV file content
     try:
-        csv_reader = csv.DictReader(buffer)
+        csv_reader = csv.reader(buffer)
+        headers = next(csv_reader)
+
+        # Loop through each row in the CSV
         for row in csv_reader:
-            print("####**" ,row)
-            # Ensure the row has an 'ID' key
-            id = row['ID']
-            product_name = row['Product Name']
-            input_image_urls = row['Input Image Urls'].split(',')
-            print("---------->", input_image_urls)
+            # Ensure the row has the necessary keys
+            id = row[0]  # First column is 'ID'
+            product_name = row[1]  # Second column is 'Product Name'
+            
+            # All remaining columns are part of 'Input Image Urls'
+            input_image_urls = row[2:] 
+            input_image_urls = input_image_urls[0].split(',')
             new_image_request = ImageProcessRequest(
                     sl_no = id,
                     file_process_id=new_file_request.id,  #
@@ -70,7 +74,6 @@ async def upload_file(file: UploadFile = File(...)):
                     input_image_urls=input_image_urls,  
                     output_image_urls=[]
                     )
-            print("#####",new_image_request)
                      
             try:
                 async with SessionLocal() as session: 
@@ -93,7 +96,6 @@ async def upload_file(file: UploadFile = File(...)):
 
 @app.get("/status/{request_id}")
 async def get_status(request_id: int):
-    print("******",request_id)
     async with SessionLocal() as session:
         status = await crud.get_status(request_id,session)
         if status:
