@@ -57,10 +57,12 @@ async def upload_file(file: UploadFile = File(...)):
     try:
         csv_reader = csv.DictReader(buffer)
         for row in csv_reader:
+            print("####**" ,row)
             # Ensure the row has an 'ID' key
             id = row['ID']
             product_name = row['Product Name']
             input_image_urls = row['Input Image Urls'].split(',')
+            print("---------->", input_image_urls)
             new_image_request = ImageProcessRequest(
                     sl_no = id,
                     file_process_id=new_file_request.id,  #

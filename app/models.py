@@ -17,7 +17,7 @@ class FileProcessRequest(Base):
     status = Column(String)
     
     # Relationship to link to ImageProcessRequests
-    images = relationship("ImageProcessRequest", back_populates="file_process")
+    images = relationship("ImageProcessRequest", back_populates="file_process", lazy="selectin")
 
 class ImageProcessRequest(Base):
     __tablename__ = "image_process_requests"

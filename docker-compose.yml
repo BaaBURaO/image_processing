@@ -4,11 +4,11 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: image_processing_db
+      POSTGRES_DB: image_processing_db_2
       ENV GOOGLE_APPLICATION_CREDENTIALS : "/Users/adarshtripathi/Desktop/image_processor/adept-watch-434307-c5-a6c0e72ab5db.json"
 
     ports:
-      - "5431:5431"
+      - "5431:5432"
     volumes:
       - ./db-init:/docker-entrypoint-initdb.d
     networks:

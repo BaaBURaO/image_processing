@@ -19,7 +19,7 @@ import tempfile
 
 # FastAPI instance
 app = FastAPI()
-credential_path = "./auth.json"
+credential_path = "./auth0.json"
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 project_id= "adept-watch-434307-c5"
 
@@ -93,15 +93,19 @@ async def compress_images_endpoint(file_request_id: int, session: AsyncSession):
 
         # Get related image process requests
         image_requests = await get_image_process_requests(file_request.id, session)
-
+        i=0
         for image_request in image_requests:
+            i+=1
             compressed_image_urls = await compress_images(image_request.input_image_urls)
-            
+            print("***************", i, image_request)
             # Update output_image_urls in the database
             image_request.output_image_urls = compressed_image_urls
+            print("##############", i)
             await session.commit()
+            
 
         file_request.status = "SUCCESS"
+        print(i, file_request)
         await session.commit()
 
         return {"status": "Images processed and uploaded successfully"}
@@ -165,11 +169,12 @@ async def upload_file(file: UploadFile = File(...)):
                 
             # Process images
             await compress_images_endpoint(new_file_request.id, session)
-
+            print("aaaaaaaaab")
         except csv.Error as e:
             raise HTTPException(status_code=400, detail=f"Error processing CSV file: {str(e)}")
 
     buffer.close()
+    print("aaaaaaaaaa", data)
     return data
 
 @app.get("/status/{request_id}")
